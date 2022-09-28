@@ -58,12 +58,8 @@ def send_data():
 while True:
     send_data()'''
 
-from ast import Try
-import base64
-from importlib.util import set_loader
 
-from tabnanny import check
-from turtle import right
+import base64
 import pyfiglet
 import random
 import emoji
@@ -203,7 +199,7 @@ class console():
                     cc= cc.read()
                     if 'init' in cc:
                         self.connection = True
-                        #break
+                        break
                     else:
                         self.connection = False
                         

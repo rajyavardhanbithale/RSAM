@@ -7,8 +7,8 @@ import os
 import time
 import sys
 
-ip = str(sys.argv[1])
-port = int(sys.argv[2])
+#ip = str(sys.argv[1])
+#port = int(sys.argv[2])
 
 
 
@@ -161,7 +161,7 @@ def init():
         print("-"*10)
         print("[*] Init\n[**]Sending Request")
 
-        os.system('dig init.example.com @127.0.0.1 -p 53')
+        os.popen('dig init.example.com @127.0.0.1 -p 53')
         if 'refused' in os.popen('dig init.example.com @127.0.0.1 -p 53').read():
             print('[**] Trying')
         elif 'init' in  os.popen('dig init.example.com @127.0.0.1 -p 53').read():
@@ -177,25 +177,32 @@ def init():
 
 
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sock.bind((ip,port))
+#sock.sendto("bytesToSend".encode(),('194.35.12.225',53))
+sock.bind(('127.0.0.1',5333))
+
+sr = False
 while True:
     try:
-        while True:
-            try:
-                if init() == True:
-                    break
-                elif init() == False:
-                    time.sleep(1)
-                    init()
-                
-                    print(init())
-                
+        if sr == False:
+            while True:
+                try:
+                    if init() == True:
+                        break
+                    elif init() == False:
+                        time.sleep(5)
+                        init()
+                    
+                        print(init())
+                    
 
-                else:
+                    else:
+                        break
+    
+                except KeyboardInterrupt:
                     break
-  
-            except KeyboardInterrupt:
-                break
+        
+
+        sr = True
 
         print("SERVER IS REAdy")
         data1, addr = sock.recvfrom(1024)
